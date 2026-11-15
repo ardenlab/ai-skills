@@ -1,0 +1,130 @@
+{
+  "targets": {
+    "codex": "~/.codex/skills",
+    "antigravity": "~/.gemini/config/skills"
+  },
+  "retiredSkills": [
+    "frontend-design"
+  ],
+  "sources": [
+    {
+      "id": "cloudflare-skills",
+      "description": "Cloudflare official Agent Skills bundle",
+      "type": "git-bundle",
+      "repo": "https://github.com/cloudflare/skills.git",
+      "branch": "main",
+      "subpath": "skills",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "colab-operator",
+      "description": "Google Colab CLI official operator skill",
+      "type": "git-dir",
+      "repo": "https://github.com/googlecolab/google-colab-cli.git",
+      "branch": "main",
+      "subpath": "skills/colab-operator",
+      "skillName": "colab-operator",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "karpathy-guidelines",
+      "description": "Andrej Karpathy coding guidelines skill",
+      "type": "git-dir",
+      "repo": "https://github.com/multica-ai/andrej-karpathy-skills.git",
+      "branch": "main",
+      "subpath": "skills/karpathy-guidelines",
+      "skillName": "karpathy-guidelines",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "ponytail-reviews",
+      "description": "Ponytail standalone code review & repo audit skills (no hooks, no always-on mode)",
+      "type": "git-dirs",
+      "repo": "https://github.com/DietrichGebert/ponytail.git",
+      "branch": "main",
+      "subpaths": [
+        "skills/ponytail-review",
+        "skills/ponytail-audit"
+      ],
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "impeccable",
+      "description": "Paul Bakaus Impeccable frontend design vocabulary, critique/audit & anti-slop skill",
+      "type": "git-dir",
+      "repo": "https://github.com/pbakaus/impeccable.git",
+      "branch": "main",
+      "targetSubpaths": {
+        "codex": ".agents/skills/impeccable",
+        "antigravity": ".agent/skills/impeccable"
+      },
+      "skillName": "impeccable",
+      "postSync": [
+        "scripts/impeccable",
+        "engine-probe"
+      ],
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "emil-design-eng",
+      "description": "Emil Kowalski UI polish, component details & animation engineering skill",
+      "type": "git-dir",
+      "repo": "https://github.com/emilkowalski/skills.git",
+      "branch": "main",
+      "subpath": "skills/emil-design-eng",
+      "skillName": "emil-design-eng",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "anti-defensive-writing",
+      "description": "Anti-defensive academic and technical writing skill",
+      "type": "git-files",
+      "repo": "https://github.com/Kiterlin/anti-defensive-writing.git",
+      "branch": "main",
+      "files": [
+        "SKILL.md"
+      ],
+      "skillName": "anti-defensive-writing",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    },
+    {
+      "id": "modeldial",
+      "description": "ModelDial Radar read-only evaluation skill",
+      "type": "http-files",
+      "baseUrl": "https://modeldial.com/modeldial-skill",
+      "files": [
+        "SKILL.md",
+        "LICENSE",
+        "references/api.md",
+        "references/method.md",
+        "references/errors.md"
+      ],
+      "skillName": "modeldial",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
+    }
+  ]
+}
