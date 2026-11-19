@@ -10,7 +10,7 @@
 ## 新电脑一键初始化
 
 ```bash
-gh repo clone ardenlab/ai-skills ~/.local/share/ai-skills
+git clone https://github.com/ardenlab/ai-skills.git ~/.local/share/ai-skills
 ~/.local/share/ai-skills/install.sh --sync
 ```
 
