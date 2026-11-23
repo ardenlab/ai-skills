@@ -21,6 +21,19 @@ CONFIG_PATH = Path.home() / ".config" / "ai-skills" / "sources.json"
 STATE_PATH = Path.home() / ".config" / "ai-skills" / "state.json"
 
 
+def pull_manifest() -> None:
+    repo_dir = Path(__file__).resolve().parent
+    if not (repo_dir / ".git").exists() or CONFIG_PATH.resolve() != repo_dir / "sources.json":
+        return
+
+    print("→ 拉取最新技能来源清单 ...", flush=True)
+    result = subprocess.run(
+        ["git", "-C", str(repo_dir), "pull", "--ff-only", "--no-rebase", "--no-autostash"]
+    )
+    if result.returncode != 0:
+        sys.exit("Error: 拉取技能来源清单失败，已停止同步。")
+
+
 def load_config() -> dict:
     if not CONFIG_PATH.exists():
         sys.exit(f"Error: config not found at {CONFIG_PATH}")
@@ -432,7 +445,7 @@ def main() -> int:
     sub.add_parser("list", help="查看已配置的技能来源与状态")
     p_check = sub.add_parser("check", help="仅检查上游是否有更新（不修改本地文件）")
     p_check.add_argument("source_id", nargs="?", help="可选：仅检查指定的技能源 id")
-    p_update = sub.add_parser("update", help="拉取所有上游最新技能并同步到 Codex 和 Antigravity")
+    p_update = sub.add_parser("update", help="先拉取技能来源清单，再同步到 Codex 和 Antigravity")
     p_update.add_argument("source_id", nargs="?", help="可选：仅更新指定的技能源 id")
     p_import = sub.add_parser("import-legacy", help="从旧版 sources.json 导入同步状态到 state.json")
     p_import.add_argument("legacy_config_path", help="旧版 sources.json 文件路径")
@@ -441,6 +454,8 @@ def main() -> int:
     if args.cmd == "import-legacy":
         return import_legacy_config(Path(args.legacy_config_path).expanduser())
 
+    if args.cmd == "update":
+        pull_manifest()
     cfg = load_config()
     state = load_state()
     cmd = args.cmd or "list"

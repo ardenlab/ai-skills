@@ -4,7 +4,7 @@
 
 - **零第三方依赖**：仅依赖系统自带 Python 3 与 `git`。
 - **稀疏按需拉取**：Git 来源使用 `--filter=blob:none` 与 `sparse-checkout`，大仓库也能只拉取目标技能子目录。
-- **配置与状态分离**：`sources.json` 只保存声明式配置供 Git 托管；每台机器的同步版本号、时间与已安装列表写入本机 `~/.config/ai-skills/state.json`，执行 `update` 不会污染仓库工作区。
+- **配置与状态分离。** Git 管理 `sources.json`，每台机器的同步版本号、时间与已安装列表保存在本机 `~/.config/ai-skills/state.json`。
 - **自动清理旧技能**：从 `sources.json` 移除某个来源或将其加入 `retiredSkills` 后，全量执行 `ai-skills update` 会自动删掉不再配置的旧技能目录。
 
 ## 新电脑一键初始化
@@ -21,8 +21,10 @@ git clone https://github.com/ardenlab/ai-skills.git ~/.local/share/ai-skills
 ```bash
 ai-skills list                 # 查看目标目录数量与各来源同步状态
 ai-skills check [source_id]    # 仅检查全部或指定来源是否有上游更新
-ai-skills update [source_id]   # 拉取更新并同步到 Codex / Antigravity
+ai-skills update [source_id]   # 先拉取来源清单，再同步到 Codex / Antigravity
 ```
+
+通过 `install.sh` 安装的 Git 克隆会先快进拉取当前分支跟踪的上游，再读取 `sources.json`。拉取失败时，命令会停止同步。使用独立来源清单时，`update` 会直接读取本地清单。
 
 ## 多端同步工作流
 
@@ -31,10 +33,12 @@ ai-skills update [source_id]   # 拉取更新并同步到 Codex / Antigravity
    ```bash
    git add sources.json && git commit -m "chore: update skills" && git push
    ```
-3. 在其他设备拉取并一键同步：
+3. 在其他设备一键拉取清单并同步技能。
    ```bash
-   git -C ~/.local/share/ai-skills pull && ai-skills update
+   ai-skills update
    ```
+
+如果设备按默认路径安装了旧版，先执行一次 `git -C ~/.local/share/ai-skills pull --ff-only` 升级命令，之后即可直接使用 `ai-skills update`。
 
 ## `sources.json` 字段说明
 
