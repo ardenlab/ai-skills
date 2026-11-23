@@ -125,6 +125,19 @@
         "codex",
         "antigravity"
       ]
+    },
+    {
+      "id": "video-analysis",
+      "description": "Colab video analysis with Google Drive evidence and follow-up reports",
+      "type": "git-dir",
+      "repo": "https://github.com/ardenlab/ai-skills.git",
+      "branch": "main",
+      "subpath": "skills/video-analysis",
+      "skillName": "video-analysis",
+      "targets": [
+        "codex",
+        "antigravity"
+      ]
     }
   ]
 }
